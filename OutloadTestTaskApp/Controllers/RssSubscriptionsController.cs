@@ -5,7 +5,7 @@ using OutloadTestTaskApp.Services;
 namespace OutloadTestTaskApp.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class RssSubscriptionsController : ControllerBase
     {
         private readonly IRssSubscriptionService _rssSubscriptionService;

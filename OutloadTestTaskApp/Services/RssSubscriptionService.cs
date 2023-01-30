@@ -7,9 +7,9 @@ namespace OutloadTestTaskApp.Services
 {
     public class RssSubscriptionService : IRssSubscriptionService
     {
-        private readonly IApplicationContext _context;
+        private readonly IApplicationDbContext _context;
 
-        public RssSubscriptionService(IApplicationContext context)
+        public RssSubscriptionService(IApplicationDbContext context)
         {
             _context = context;
         }
