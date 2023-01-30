@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OutloadTestTaskApp.Repository;
+using OutloadTestTaskApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IApplicationContext>(provider => provider.GetRequiredService<ApplicationContext>());
+builder.Services.AddTransient<IRssSubscriptionService, RssSubscriptionService>();
 
 var app = builder.Build();
 
