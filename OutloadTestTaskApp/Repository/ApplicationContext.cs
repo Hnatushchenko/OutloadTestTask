@@ -3,11 +3,12 @@ using OutloadTestTaskApp.Models;
 
 namespace OutloadTestTaskApp.Repository
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext, IApplicationContext
     {
         public DbSet<RssSubscription> RssSubscriptions { get; set; }
 
-        public ApplicationContext()
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
+            : base(options)
         {
             Database.EnsureCreated();
         }
