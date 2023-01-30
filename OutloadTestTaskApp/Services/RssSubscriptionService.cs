@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OutloadTestTaskApp.CustomException;
 using OutloadTestTaskApp.Models;
 using OutloadTestTaskApp.Repository;
 
@@ -6,9 +7,9 @@ namespace OutloadTestTaskApp.Services
 {
     public class RssSubscriptionService : IRssSubscriptionService
     {
-        private readonly ApplicationContext _context;
+        private readonly IApplicationContext _context;
 
-        public RssSubscriptionService(ApplicationContext context)
+        public RssSubscriptionService(IApplicationContext context)
         {
             _context = context;
         }
@@ -16,6 +17,12 @@ namespace OutloadTestTaskApp.Services
         public async Task<IEnumerable<RssSubscription>> GetAllAsync()
         {
             return await _context.RssSubscriptions.ToListAsync();
+        }
+
+        public async Task<RssSubscription?> GetByIdAsync(Guid id)
+        {
+            return await _context.RssSubscriptions.
+                Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<RssSubscription>> GetAllUnreadNewsAsync(DateTimeOffset date)
@@ -26,7 +33,7 @@ namespace OutloadTestTaskApp.Services
             return await subscriptions.ToListAsync();
         }
 
-        public async Task AddAsync(string feedUrl)
+        public async Task<RssSubscription> AddAsync(string feedUrl)
         {
             var rssSubscription = new RssSubscription
             {
@@ -37,6 +44,7 @@ namespace OutloadTestTaskApp.Services
             };
             _context.RssSubscriptions.Add(rssSubscription);
             await _context.SaveChangesAsync();
+            return rssSubscription;
         }
 
         public async Task SetAsReadAsync(Guid id)
@@ -44,7 +52,7 @@ namespace OutloadTestTaskApp.Services
             var subscription = await _context.RssSubscriptions
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (subscription is null) return;
+            if (subscription is null) throw new EntityNotFoundException();
 
             subscription.IsRead = true;
             _context.Update(subscription);
