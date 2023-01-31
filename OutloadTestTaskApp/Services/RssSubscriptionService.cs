@@ -55,7 +55,18 @@ namespace OutloadTestTaskApp.Services
             if (subscription is null) throw new EntityNotFoundException();
 
             subscription.IsRead = true;
-            _context.Update(subscription);
+            _context.RssSubscriptions.Update(subscription);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Guid id)
+        {
+            var subscription = await _context.RssSubscriptions
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (subscription is null) return;
+
+            _context.RssSubscriptions.Remove(subscription);
             await _context.SaveChangesAsync();
         }
     }

@@ -9,5 +9,6 @@ namespace OutloadTestTaskApp.Services
         Task<IEnumerable<RssSubscription>> GetAllAsync();
         Task<IEnumerable<RssSubscription>> GetAllUnreadNewsAsync(DateTimeOffset date);
         Task SetAsReadAsync(Guid id);
+        Task DeleteAsync(Guid id);
     }
 }

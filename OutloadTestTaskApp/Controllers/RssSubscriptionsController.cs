@@ -63,5 +63,12 @@ namespace OutloadTestTaskApp.Controllers
             var rssSubscriptions = await _rssSubscriptionService.GetAllUnreadNewsAsync(date);
             return Ok(rssSubscriptions);
         }
+
+        [HttpDelete("Delete/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            await _rssSubscriptionService.DeleteAsync(id);
+            return NoContent();
+        }
     }
 }
