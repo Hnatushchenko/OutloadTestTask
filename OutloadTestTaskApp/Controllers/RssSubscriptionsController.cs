@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OutloadTestTaskApp.CustomException;
 using OutloadTestTaskApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OutloadTestTaskApp.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class RssSubscriptionsController : ControllerBase

@@ -1,6 +1,8 @@
-﻿namespace OutloadTestTaskApp.Authentication
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace OutloadTestTaskApp.Authentication
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
     }
 }
